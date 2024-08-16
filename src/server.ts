@@ -1,5 +1,5 @@
 import express, { ErrorRequestHandler } from 'express';
-import { loggers, type Logger } from 'winston';
+import type { Logger } from 'winston';
 import type { Knex } from 'knex';
 import router from './routes';
 import { NODE_ENV } from './env';
