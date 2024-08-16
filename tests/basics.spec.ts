@@ -1,5 +1,5 @@
 import request from 'supertest';
-import testServer from './test-server';
+import testServer from './utils/test-server';
 
 test('unknown paths respond with 404', () => request(testServer)
   .get('/asdf/not/a/real/path')

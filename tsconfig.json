@@ -41,7 +41,7 @@
     /* Specify type package names to be included without being referenced in a source file. */
     "types": [
       "jest",
-      "./src/knex.d.ts"
+      "./src/types/knex.d.ts"
     ],
     // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
     // "moduleSuffixes": [],                             /* List of file name suffixes to search when resolving a module. */
