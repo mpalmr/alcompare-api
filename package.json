@@ -1,0 +1,40 @@
+{
+  "name": "@alcompare/api",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "license": "UNLICENSED",
+  "author": "Matthew Palmer <mspalmer91@gmail.com>",
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon --exec \"node -r ts-node/register --inspect\" ./src/index.ts",
+    "test": "yarn typecheck && yarn lint",
+    "test:typecheck": "tsc --noEmit",
+    "test:lint": "eslint --ext ts,js .",
+    "db:migrate": "knex migrate:latest",
+    "db:migrate:make": "knex migrate:make -x ts",
+    "db:seed": "knex seed:run",
+    "db:seed:make": "knex seed:make -x ts",
+    "db:reset": "knex migrate:rollback --all && yarn db:migrate && yarn db:seed"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "knex": "^3.1.0",
+    "objection": "^3.1.4",
+    "pg": "^8.12.0",
+    "winston": "^3.14.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
