@@ -1,0 +1,45 @@
+name: test
+run-name: Automated Tests
+
+on:
+  push:
+    branches:
+      - master
+      - development
+
+  pull_request:
+    branches:
+      - master
+      - development
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set .env as example file
+        run: cp .env.example .env
+
+      - name: Read .nvmrc
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+        id: nvm
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+
+      - name: Install dependencies
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install --frozen-lockfile
+
+      - name: Docker compose up
+        run: docker-compose up -d
+
+      - name: Run integration tests
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test
