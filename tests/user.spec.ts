@@ -1,8 +1,7 @@
 import request from 'supertest';
 import createKnex, { Knex } from 'knex';
 import knexConfig from '../knexfile';
-import testServer from './utils/test-server';
-import { UUID_PATTERN } from './utils/patterns';
+import { testServer, closeKnex, UUID_PATTERN } from './utils';
 
 let knex: Knex;
 
@@ -10,14 +9,7 @@ beforeAll(() => {
   knex = createKnex(knexConfig);
 });
 
-afterAll(async () => {
-  await new Promise<void>((resolve, reject) => {
-    knex.destroy((ex: Error) => {
-      if (ex) reject(ex);
-      else resolve();
-    });
-  });
-});
+afterAll(() => closeKnex(knex));
 
 describe('POST /user', () => {
   test('can create an user', async () => {
