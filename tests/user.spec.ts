@@ -21,11 +21,12 @@ describe('POST /user', () => {
       })
       .expect(201);
 
-    const user = await knex('users').where('email', 'test@example.com');
-    expect(user).toHaveLength(1);
-    expect(user?.at(0)?.id).toMatch(UUID_PATTERN);
-    expect(user?.at(0)?.email).toBe('test@example.com');
-    expect(user?.at(0)?.createdAt).toBeInstanceOf(Date);
+    expect(await knex('users').where('email', 'test@example.com')).toEqual([{
+      id: expect.stringMatching(UUID_PATTERN),
+      email: 'test@example.com',
+      passwordHash: expect.any(String),
+      createdAt: expect.any(Date),
+    }]);
   });
 
   // TODO: provide specific error messages in response json for 409 and 400 responses
