@@ -10,7 +10,7 @@
     "test": "yarn typecheck && yarn lint && yarn jest",
     "typecheck": "tsc",
     "lint": "eslint --ext ts,js .",
-    "jest": "NODE_ENV=test jest -i",
+    "jest": "NODE_ENV=test jest -i --detectOpenHandles --forceExit",
     "db:migrate": "knex migrate:latest",
     "db:migrate:make": "knex migrate:make -x ts",
     "db:seed": "knex seed:run",

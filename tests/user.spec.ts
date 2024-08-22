@@ -1,8 +1,7 @@
 import request from 'supertest';
 import createKnex, { Knex } from 'knex';
 import knexConfig from '../knexfile';
-import testServer from './utils/test-server';
-import { UUID_PATTERN } from './utils/patterns';
+import { testServer, closeKnex, UUID_PATTERN } from './utils';
 
 let knex: Knex;
 
@@ -10,14 +9,7 @@ beforeAll(() => {
   knex = createKnex(knexConfig);
 });
 
-afterAll(async () => {
-  await new Promise<void>((resolve, reject) => {
-    knex.destroy((ex: Error) => {
-      if (ex) reject(ex);
-      else resolve();
-    });
-  });
-});
+afterAll(() => closeKnex(knex));
 
 describe('POST /user', () => {
   test('can create an user', async () => {
@@ -29,11 +21,12 @@ describe('POST /user', () => {
       })
       .expect(201);
 
-    const user = await knex('users').where('email', 'test@example.com');
-    expect(user).toHaveLength(1);
-    expect(user?.at(0)?.id).toMatch(UUID_PATTERN);
-    expect(user?.at(0)?.email).toBe('test@example.com');
-    expect(user?.at(0)?.createdAt).toBeInstanceOf(Date);
+    expect(await knex('users').where('email', 'test@example.com')).toEqual([{
+      id: expect.stringMatching(UUID_PATTERN),
+      email: 'test@example.com',
+      passwordHash: expect.any(String),
+      createdAt: expect.any(Date),
+    }]);
   });
 
   // TODO: provide specific error messages in response json for 409 and 400 responses

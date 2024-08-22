@@ -19,12 +19,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-<<<<<<< HEAD
-=======
       - name: Set .env as example file
         run: cp .env.example .env
 
->>>>>>> development
       - name: Read .nvmrc
         run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
         id: nvm
@@ -39,12 +36,9 @@ jobs:
         with:
           cmd: install --frozen-lockfile
 
-<<<<<<< HEAD
-=======
       - name: Docker compose up
         run: docker-compose up -d
 
->>>>>>> development
       - name: Run integration tests
         uses: borales/actions-yarn@v4
         with:
